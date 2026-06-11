@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Task - Task Manager</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* Make the navbar icon colorful */
+    .navbar-brand i {
+      color: #FFD700;
+      margin-left: 6px;
+    }
+
+    .navbar-brand i:hover {
+      color: #FF4500;
+    }
+  </style>
+</head>
+
+<body class="bg-light">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="index.html">
+        Task Manager <i class="bi bi-journal-text"></i>
+      </a>
+      <button id="logoutBtn" class="btn btn-outline-light ms-auto">Logout</button>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container mt-4">
+    <h2 class="fw-bold mb-3" id="formTitle">Add New Task</h2>
+
+    <div id="alertBox"></div>
+
+    <form id="taskForm" class="card p-4 shadow-sm">
+      <input type="hidden" id="taskId">
+
+      <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input type="text" id="title" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea id="description" class="form-control" rows="6"
+          style="resize: vertical; overflow-y: scroll;"
+          placeholder="Write detailed notes..."></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Due Date</label>
+        <input type="date" id="dueDate" class="form-control">
+      </div>
+
+      <div class="d-flex mb-4">
+        <button type="submit" class="btn btn-success">Save Task</button>
+        <a href="index.html" class="btn btn-secondary ms-2">Cancel</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- ✅ SOCKET.IO CLIENT ADDED -->
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+  <script>
+    const API_URL = "http://localhost:5000/tasks";
+    const token = localStorage.getItem('token');
+
+    // Redirect if not logged in
+    if (!token) {
+      window.location.href = "login.html";
+    }
+
+    // ✅ SOCKET CONNECTION (ADDED)
+    const socket = io("http://localhost:5000");
+
+    socket.on("taskUpdated", () => {
+      console.log("Task updated in another tab/device");
+    });
+
+    // Show alert messages
+    function showAlert(message, type = "danger") {
+      document.getElementById('alertBox').innerHTML =
+        `<div class="alert alert-${type}">${message}</div>`;
+    }
+
+    // Check if editing
+    const urlParams = new URLSearchParams(window.location.search);
+    const taskId = urlParams.get('id');
+
+    if (taskId) {
+      document.getElementById('formTitle').innerText = "Edit Task";
+      document.getElementById('taskId').value = taskId;
+
+      fetch(`${API_URL}/${taskId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+        .then(res => {
+          if (!res.ok) throw new Error("Failed to load task");
+          return res.json();
+        })
+        .then(task => {
+          document.getElementById('title').value = task.title;
+          document.getElementById('description').value = task.description || "";
+          document.getElementById('dueDate').value =
+            task.dueDate
+              ? new Date(task.dueDate).toISOString().split('T')[0]
+              : "";
+        })
+        .catch(err => showAlert(err.message));
+    }
+
+    // Save Task
+    document.getElementById('taskForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const id = document.getElementById('taskId').value;
+      const title = document.getElementById('title').value;
+      const description = document.getElementById('description').value;
+      const dueDate = document.getElementById('dueDate').value;
+
+      const method = id ? 'PUT' : 'POST';
+      const url = id ? `${API_URL}/${id}` : API_URL;
+
+      try {
+        const response = await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ title, description, dueDate })
+        });
+
+        if (!response.ok) {
+          const data = await response.json();
+          showAlert(data.message || "Failed to save task");
+          return;
+        }
+
+        // (Backend already emits event, so dashboard updates automatically)
+        window.location.href = "index.html";
+
+      } catch (err) {
+        showAlert("Error saving task: " + err.message);
+      }
+    });
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('token');
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>
