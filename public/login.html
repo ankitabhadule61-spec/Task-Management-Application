@@ -7,14 +7,107 @@
    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <style>
-  /* Make the navbar icon colorful */
-    .navbar-brand i {
-      color: #FFD700; /* golden yellow */
-      margin-left: 6px;
+body{
+    background:#f4f7fb !important;
+}
+
+/* Navbar */
+.navbar{
+    background:linear-gradient(135deg,#0f172a,#1e293b)!important;
+    box-shadow:0 4px 15px rgba(0,0,0,0.15);
+}
+
+.navbar-brand{
+    font-size:1.4rem;
+    letter-spacing:0.5px;
+}
+
+.navbar-brand i{
+    color:#38bdf8;
+    margin-left:8px;
+    transition:0.3s;
+}
+
+.navbar-brand i:hover{
+    color:#7dd3fc;
+}
+
+/* Page Heading */
+h2{
+    color:#1e293b;
+    font-weight:700;
+    text-align:center;
+    margin-bottom:25px;
+}
+
+/* Login Card */
+.card{
+    max-width:500px;
+    margin:auto;
+    border:none;
+    border-radius:20px;
+    background:white;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08)!important;
+}
+
+/* Labels */
+.form-label{
+    font-weight:600;
+    color:#334155;
+}
+
+/* Inputs */
+.form-control{
+    border-radius:12px;
+    border:1px solid #dbe3ee;
+    padding:12px;
+}
+
+.form-control:focus{
+    border-color:#38bdf8;
+    box-shadow:0 0 0 0.2rem rgba(56,189,248,.15);
+}
+
+/* Login Button */
+.btn-primary{
+    background:#2563eb;
+    border:none;
+    border-radius:12px;
+    padding:10px;
+    font-weight:600;
+}
+
+.btn-primary:hover{
+    background:#1d4ed8;
+}
+
+/* Register Link */
+.btn-link{
+    text-decoration:none;
+    color:#2563eb;
+    font-weight:500;
+}
+
+.btn-link:hover{
+    color:#1d4ed8;
+}
+
+/* Alerts */
+.alert{
+    border-radius:12px;
+}
+
+/* Mobile */
+@media(max-width:768px){
+
+    .card{
+        margin:0 10px;
     }
-    .navbar-brand i:hover {
-      color: #FF4500; /* orange-red on hover */
+
+    h2{
+        font-size:1.8rem;
     }
+}
 </style>
 <body class="bg-light">
 
@@ -22,7 +115,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
     <a class="navbar-brand fw-bold" href="index.html">
-      Task Manager <i class="bi bi-journal-text"></i>
+     Task Manager <i class="bi bi-kanban-fill"></i>
     </a>
   </div>
 </nav>
