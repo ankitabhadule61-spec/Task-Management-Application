@@ -1,271 +1,3287 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Add Task - Task Manager</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-  <style>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>New Task · Task Manager</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet">
+
+
+<style>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+:root{
+
+    --bg1:#f8fafc;
+    --bg2:#eef2ff;
+
+    --card:#ffffff;
+
+    --border:#cbd5e1;
+
+    --ink:#0f172a;
+    --ink-soft:#475569;
+    --muted:#64748b;
+
+    --primary:#4f46e5;
+    --primary-dark:#3730a3;
+    --primary-light:#e0e7ff;
+
+    --blue:#1d4ed8;
+
+    --orange:#c2410c;
+    --orange-light:#fff7ed;
+
+    --red:#b91c1c;
+    --red-light:#fef2f2;
+
+    font-family:'Inter',sans-serif;
+}
+
+
+*{
+    box-sizing:border-box;
+}
+
+
+html,
 body{
-    background:#f4f7fb !important;
+    min-height:100%;
 }
 
-/* Navbar */
-.navbar{
-    background:linear-gradient(135deg,#0f172a,#1e293b)!important;
-    box-shadow:0 4px 15px rgba(0,0,0,0.15);
+
+body{
+
+    margin:0;
+
+    min-height:100vh;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--bg1) 0%,
+            var(--bg2) 100%
+        );
+
+    color:var(--ink);
+
+    display:flex;
+
 }
 
-.navbar-brand{
-    font-size:1.4rem;
-    letter-spacing:0.5px;
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar{
+
+    width:250px;
+
+    flex:none;
+
+    background:#ffffff;
+
+    border-right:1px solid var(--border);
+
+    padding:30px 20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    position:sticky;
+
+    top:0;
+
+    height:100vh;
+
 }
 
-.navbar-brand i{
-    color:#38bdf8;
-    margin-left:8px;
-    transition:0.3s;
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+    padding:0 7px 30px;
+
 }
 
-.navbar-brand i:hover{
-    color:#7dd3fc;
+
+.logo-mark{
+
+    width:40px;
+
+    height:40px;
+
+    border-radius:11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--primary-dark)
+        );
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:800;
+
+    font-size:.85rem;
+
+    font-family:'Plus Jakarta Sans',sans-serif;
+
 }
 
-/* Page Title */
-h2{
-    color:#1e293b;
+
+.logo-name{
+
+    font-family:'Plus Jakarta Sans',sans-serif;
+
+    font-weight:800;
+
+    font-size:1.04rem;
+
+    line-height:1.1;
+
+    color:var(--ink);
+
+}
+
+
+.logo-tag{
+
+    font-size:.61rem;
+
+    letter-spacing:.09em;
+
+    color:var(--muted);
+
+    font-weight:700;
+
+}
+
+
+.side-nav{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+}
+
+
+.nav-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+    padding:12px 14px;
+
+    border-radius:11px;
+
+    color:var(--ink-soft);
+
+    font-weight:600;
+
+    font-size:.89rem;
+
+    text-decoration:none;
+
+    border:none;
+
+    background:transparent;
+
+    cursor:pointer;
+
+    width:100%;
+
+    text-align:left;
+
+    transition:.2s ease;
+
+}
+
+
+.nav-item svg{
+    flex:none;
+}
+
+
+.nav-item:hover{
+
+    background:#f1f5f9;
+
+    color:var(--ink);
+
+}
+
+
+.nav-item.active{
+
+    background:var(--primary-light);
+
+    color:var(--primary-dark);
+
+    font-weight:700;
+
+}
+
+
+.sidebar-spacer{
+    flex:1;
+}
+
+
+.nav-item.logout:hover{
+
+    background:var(--red-light);
+
+    color:var(--red);
+
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+main{
+
+    flex:1;
+
+    min-width:0;
+
+    padding:48px 65px 70px;
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.breadcrumb{
+
+    font-size:.86rem;
+
+    color:var(--muted);
+
+    font-weight:600;
+
+    margin-bottom:14px;
+
+}
+
+
+.breadcrumb .current{
+    color:var(--primary);
     font-weight:700;
 }
 
-/* Form Card */
-.card{
-    border:none;
-    border-radius:18px;
-    background:white;
-    box-shadow:0 10px 25px rgba(0,0,0,0.08)!important;
+
+.page-head{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    justify-content:space-between;
+
+    gap:25px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:32px;
+
 }
 
-/* Labels */
-.form-label{
-    color:#334155;
+
+.page-head h1{
+
+    font-family:'Plus Jakarta Sans',sans-serif;
+
+    font-weight:800;
+
+    font-size:2.4rem;
+
+    margin:0 0 8px;
+
+    letter-spacing:-.03em;
+
+    color:var(--ink);
+
+}
+
+
+.page-head p{
+
+    color:var(--ink-soft);
+
+    font-size:1rem;
+
+    margin:0;
+
+}
+
+
+.draft-status{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    font-size:.85rem;
+
+    font-weight:700;
+
+    color:var(--primary-dark);
+
+    background:var(--primary-light);
+
+    padding:8px 14px;
+
+    border-radius:20px;
+
+    white-space:nowrap;
+
+}
+
+
+.draft-status .dot{
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+}
+
+
+/* =====================================================
+   ALERT
+===================================================== */
+
+#alertBox .alert{
+
+    font-size:.9rem;
+
     font-weight:600;
+
+    background:var(--red-light);
+
+    color:var(--red);
+
+    border:1px solid #fca5a5;
+
+    border-radius:13px;
+
+    padding:14px 18px;
+
+    margin-bottom:24px;
+
 }
 
-/* Inputs */
-.form-control{
-    border-radius:12px;
-    border:1px solid #dbe3ee;
-    padding:12px;
+
+/* =====================================================
+   BIG MAIN CARD
+===================================================== */
+
+.card{
+
+    width:100%;
+
+    min-height:760px;
+
+    background:var(--card);
+
+    border:1.5px solid var(--border);
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 20px 50px rgba(15,23,42,.06);
+
 }
 
-.form-control:focus{
-    border-color:#38bdf8;
-    box-shadow:0 0 0 0.2rem rgba(56,189,248,.15);
+
+/* =====================================================
+   FORM
+===================================================== */
+
+#taskForm{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    min-height:650px;
+
 }
 
-/* Save Button */
-.btn-success{
-    background:#10b981;
+
+/* =====================================================
+   LEFT SIDE
+===================================================== */
+
+.main-col{
+
+    flex:
+
+        1 1
+
+        700px;
+
+    padding:
+
+        48px
+
+        55px
+
+        52px;
+
+}
+
+
+/* =====================================================
+   RIGHT SIDE
+===================================================== */
+
+.side-col{
+
+    flex:
+
+        0 1
+
+        390px;
+
+    padding:
+
+        48px
+
+        38px;
+
+    border-left:
+
+        1px solid var(--border);
+
+    background:
+
+        #f8fafc;
+
+}
+
+
+/* =====================================================
+   FIELDS
+===================================================== */
+
+.field{
+
+    margin-bottom:32px;
+
+}
+
+
+.field label{
+
+    display:block;
+
+    font-size:.92rem;
+
+    font-weight:700;
+
+    color:var(--ink);
+
+    margin-bottom:11px;
+
+}
+
+
+.field label .req{
+
+    color:var(--red);
+
+}
+
+
+.field input[type="text"]{
+
+    width:100%;
+
+    font-size:1rem;
+
+    color:var(--ink);
+
+    background:#ffffff;
+
+    border:1.5px solid var(--border);
+
+    border-radius:13px;
+
+    padding:16px 17px;
+
+    transition:.2s ease;
+
+}
+
+
+.field input[type="text"]:focus{
+
+    outline:none;
+
+    border-color:var(--primary);
+
+    background:#fff;
+
+    box-shadow:
+        0 0 0 4px rgba(79,70,229,.15);
+
+}
+
+
+.field input[type="text"]::placeholder{
+
+    color:var(--muted);
+
+}
+
+
+/* =====================================================
+   RICH TEXT DESCRIPTION
+===================================================== */
+
+.desc-box{
+
+    border:
+
+        1.5px solid
+
+        var(--border);
+
+    border-radius:
+
+        15px;
+
+    overflow:
+
+        hidden;
+
+    background:
+
+        #ffffff;
+
+    transition:
+
+        border-color .2s ease,
+
+        box-shadow .2s ease;
+
+}
+
+
+.desc-box:focus-within{
+
+    border-color:
+
+        var(--primary);
+
+    box-shadow:
+
+        0 0 0 4px
+
+        rgba(79,70,229,.15);
+
+}
+
+
+/* TOOLBAR */
+
+.desc-toolbar{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:5px;
+
+    padding:10px 12px;
+
+    border-bottom:
+
+        1px solid
+
+        var(--border);
+
+    background:
+
+        #f1f5f9;
+
+}
+
+
+.desc-toolbar button{
+
+    width:34px;
+
+    height:34px;
+
+    border-radius:9px;
+
+    border:1px solid transparent;
+
+    background:transparent;
+
+    color:var(--ink-soft);
+
+    font-weight:700;
+
+    font-size:.9rem;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    transition:.18s ease;
+
+}
+
+
+.desc-toolbar button:hover{
+
+    background:#e2e8f0;
+
+    color:var(--ink);
+
+}
+
+
+.desc-toolbar button.active{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+
+/* ACTUAL EDITOR */
+
+#description{
+
+    width:100%;
+
+    min-height:250px;
+
+    max-height:430px;
+
+    overflow-y:auto;
+
+    outline:none;
+
     border:none;
+
+    background:#fff;
+
+    font-family:'Inter',sans-serif;
+
+    font-size:1rem;
+
+    line-height:1.75;
+
+    color:var(--ink);
+
+    padding:20px;
+
 }
 
-.btn-success:hover{
-    background:#059669;
+
+#description:empty::before{
+
+    content:
+
+        "Add notes, context, or links to help get this done…";
+
+    color:var(--muted);
+
+    pointer-events:none;
+
 }
 
-/* Cancel Button */
-.btn-secondary{
-    background:#64748b;
+
+#description strong{
+
+    font-weight:800;
+
+    color:var(--ink);
+
+}
+
+
+#description em{
+
+    font-style:italic;
+
+}
+
+
+#description ul{
+
+    margin:
+
+        8px 0
+
+        8px 24px;
+
+    padding:0;
+
+}
+
+
+/* =====================================================
+   GROUP LABELS
+===================================================== */
+
+.group-label{
+
+    font-size:.92rem;
+
+    font-weight:700;
+
+    color:var(--ink);
+
+    margin-bottom:12px;
+
+    display:block;
+
+}
+
+
+.pill-row{
+
+    display:flex;
+
+    gap:11px;
+
+    flex-wrap:wrap;
+
+}
+
+
+.pill-btn{
+
+    flex:1;
+
+    min-width:125px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:8px;
+
+    font-size:.88rem;
+
+    font-weight:700;
+
+    padding:14px 16px;
+
+    border-radius:999px;
+
+    border:1.5px solid var(--border);
+
+    background:#fff;
+
+    color:var(--ink-soft);
+
+    cursor:pointer;
+
+    transition:.18s ease;
+
+}
+
+
+.pill-btn:hover{
+
+    border-color:#94a3b8;
+
+    color:var(--ink);
+
+    transform:translateY(-1px);
+
+}
+
+
+.pill-btn.active{
+
+    background:var(--primary-light);
+
+    border-color:var(--primary);
+
+    color:var(--primary-dark);
+
+}
+
+
+.pill-btn .dot{
+
+    width:9px;
+
+    height:9px;
+
+    border-radius:50%;
+
+    flex:none;
+
+}
+
+
+.pill-btn[data-status="todo"] .dot{
+    background:var(--blue);
+}
+
+
+.pill-btn[data-status="in-progress"] .dot{
+    background:var(--orange);
+}
+
+
+.pill-btn[data-status="completed"] .dot{
+    background:var(--primary);
+}
+
+
+.pill-btn[data-priority="low"] .dot{
+    background:var(--primary);
+}
+
+
+.pill-btn[data-priority="medium"] .dot{
+    background:var(--orange);
+}
+
+
+.pill-btn[data-priority="high"] .dot{
+    background:var(--red);
+}
+
+
+/* =====================================================
+   CALENDAR
+===================================================== */
+
+.side-col h3{
+
+    font-family:'Plus Jakarta Sans',sans-serif;
+
+    font-size:1.12rem;
+
+    font-weight:800;
+
+    color:var(--ink);
+
+    margin:0 0 6px;
+
+}
+
+
+.side-col .side-sub{
+
+    font-size:.88rem;
+
+    color:var(--ink-soft);
+
+    margin:0 0 23px;
+
+}
+
+
+.cal-card{
+
+    border:
+
+        1.5px solid
+
+        var(--border);
+
+    border-radius:
+
+        18px;
+
+    padding:
+
+        22px;
+
+    background:
+
+        #fff;
+
+    box-shadow:
+
+        0 10px 25px
+
+        rgba(15,23,42,.03);
+
+}
+
+
+.cal-head{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:18px;
+
+}
+
+
+.cal-head button{
+
+    width:34px;
+
+    height:34px;
+
+    border-radius:9px;
+
+    border:1px solid var(--border);
+
+    background:#fff;
+
+    color:var(--ink-soft);
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:1.2rem;
+
+    transition:.18s ease;
+
+}
+
+
+.cal-head button:hover{
+
+    background:var(--primary-light);
+
+    color:var(--primary-dark);
+
+    border-color:var(--primary);
+
+}
+
+
+.cal-label{
+
+    font-weight:800;
+
+    font-size:.95rem;
+
+    font-family:'Plus Jakarta Sans',sans-serif;
+
+    color:var(--ink);
+
+}
+
+
+.cal-weekdays{
+
+    display:grid;
+
+    grid-template-columns:
+
+        repeat(7,1fr);
+
+    margin-bottom:10px;
+
+}
+
+
+.cal-weekdays span{
+
+    text-align:center;
+
+    font-size:.7rem;
+
+    font-weight:800;
+
+    color:var(--muted);
+
+    text-transform:uppercase;
+
+}
+
+
+.cal-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+        repeat(7,1fr);
+
+    gap:5px;
+
+}
+
+
+.cal-day{
+
+    aspect-ratio:1;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:.85rem;
+
+    border-radius:10px;
+
     border:none;
+
+    background:transparent;
+
+    color:var(--ink);
+
+    cursor:pointer;
+
+    font-weight:700;
+
+    transition:.16s ease;
+
 }
 
-.btn-secondary:hover{
-    background:#475569;
+
+button.cal-day:hover{
+
+    background:var(--primary-light);
+
+    color:var(--primary-dark);
+
 }
 
-/* Logout Button */
-.btn-outline-light{
-    border:1px solid rgba(255,255,255,0.7);
+
+.cal-muted{
+
+    color:#cbd5e1;
+
+    cursor:default;
+
 }
 
-.btn-outline-light:hover{
-    background:white;
-    color:#0f172a;
+
+.cal-today{
+
+    border:
+
+        1.5px solid
+
+        var(--primary);
+
 }
 
-/* Alert */
-.alert{
+
+.cal-selected{
+
+    background:
+
+        var(--primary) !important;
+
+    color:#fff !important;
+
+}
+
+
+/* =====================================================
+   DATE FIELD
+===================================================== */
+
+.selected-date-field{
+
+    margin-top:23px;
+
+}
+
+
+.selected-date-field label{
+
+    display:block;
+
+    font-size:.82rem;
+
+    font-weight:700;
+
+    color:var(--ink);
+
+    margin-bottom:9px;
+
+}
+
+
+.selected-date-field input{
+
+    width:100%;
+
+    font-size:.93rem;
+
+    font-weight:600;
+
+    color:var(--ink);
+
+    background:#ffffff;
+
+    border:1.5px solid var(--border);
+
     border-radius:12px;
+
+    padding:14px;
+
 }
 
-/* Mobile Responsive */
-@media(max-width:768px){
 
-    h2{
-        text-align:center;
+/* =====================================================
+   BOTTOM BAR
+===================================================== */
+
+.bottom-bar{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    padding:
+
+        25px
+
+        55px;
+
+    border-top:
+
+        1px solid
+
+        var(--border);
+
+    background:#ffffff;
+
+    flex-wrap:wrap;
+
+}
+
+
+.hint{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    font-size:.88rem;
+
+    font-weight:600;
+
+    color:var(--ink-soft);
+
+}
+
+
+.hint .check{
+
+    width:21px;
+
+    height:21px;
+
+    border-radius:50%;
+
+    background:var(--primary-light);
+
+    color:var(--primary-dark);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:.75rem;
+
+    font-weight:800;
+
+}
+
+
+.bar-actions{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+
+.btn{
+
+    font-size:.92rem;
+
+    font-weight:700;
+
+    border-radius:12px;
+
+    padding:14px 27px;
+
+    border:1.5px solid transparent;
+
+    cursor:pointer;
+
+    text-decoration:none;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:7px;
+
+    transition:.18s ease;
+
+}
+
+
+.btn-cancel{
+
+    background:#fff;
+
+    color:var(--ink-soft);
+
+    border-color:var(--border);
+
+}
+
+
+.btn-cancel:hover{
+
+    border-color:#94a3b8;
+
+    color:var(--ink);
+
+}
+
+
+.btn-save{
+
+    background:var(--primary);
+
+    color:#fff;
+
+    box-shadow:
+
+        0 10px 25px
+
+        rgba(79,70,229,.25);
+
+}
+
+
+.btn-save:hover{
+
+    background:var(--primary-dark);
+
+    transform:translateY(-1px);
+
+}
+
+
+.btn-save:active{
+
+    transform:translateY(1px);
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:1200px){
+
+    main{
+
+        padding:
+
+            40px
+
+            40px
+
+            55px;
+
     }
 
-    .d-flex.mb-4{
+
+    .main-col{
+
+        flex-basis:600px;
+
+        padding:
+
+            40px;
+
+    }
+
+
+    .side-col{
+
+        flex-basis:340px;
+
+        padding:
+
+            40px
+
+            30px;
+
+    }
+
+
+    .bottom-bar{
+
+        padding:
+
+            23px
+
+            40px;
+
+    }
+
+}
+
+
+@media(max-width:950px){
+
+    .side-col{
+
+        border-left:none;
+
+        border-top:
+
+            1px solid
+
+            var(--border);
+
+        flex-basis:100%;
+
+    }
+
+
+    .card{
+
+        min-height:auto;
+
+    }
+
+}
+
+
+@media(max-width:820px){
+
+    body{
+
         flex-direction:column;
-        gap:10px;
+
     }
 
-    .d-flex.mb-4 .btn{
+
+    .sidebar{
+
         width:100%;
+
+        height:auto;
+
+        position:relative;
+
+        flex-direction:row;
+
+        align-items:center;
+
+        padding:14px 18px;
+
     }
-}
-/* Logout Button */
-#logoutBtn{
-    background:#ef4444;
-    border:none;
-    color:white;
+
+
+    .logo{
+
+        padding:0;
+
+        margin-right:auto;
+
+    }
+
+
+    .side-nav{
+
+        flex-direction:row;
+
+    }
+
+
+    .sidebar-spacer{
+
+        display:none;
+
+    }
+
+
+    main{
+
+        padding:
+
+            30px
+
+            20px
+
+            40px;
+
+    }
+
+
+    .page-head h1{
+
+        font-size:2rem;
+
+    }
+
+
+    .main-col,
+    .side-col{
+
+        padding:
+
+            30px
+
+            24px;
+
+    }
+
+
+    .bottom-bar{
+
+        padding:
+
+            20px
+
+            24px;
+
+    }
+
 }
 
-#logoutBtn:hover{
-    background:#dc2626;
-    color:white;
+
+@media(max-width:600px){
+
+    .page-head h1{
+
+        font-size:1.7rem;
+
+    }
+
+
+    .pill-btn{
+
+        min-width:100%;
+
+        flex:none;
+
+    }
+
+
+    .bottom-bar{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+
+    .bar-actions{
+
+        width:100%;
+
+    }
+
+
+    .bar-actions .btn{
+
+        flex:1;
+
+    }
+
 }
+
 </style>
+
 </head>
 
-<body class="bg-light">
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container-fluid">
-      <a class="navbar-brand fw-bold" href="#">
-        Task Manager <i class="bi bi-kanban-fill"></i>
-      </a>
-      <button id="logoutBtn" class="btn btn-outline-light ms-auto">Logout</button>
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <span class="logo-mark">
+            TM
+        </span>
+
+        <div>
+
+            <div class="logo-name">
+                Task Manager
+            </div>
+
+            <div class="logo-tag">
+                GET IT DONE
+            </div>
+
+        </div>
+
     </div>
-  </nav>
 
-  <!-- Main Container -->
-  <div class="container mt-4">
-    <h2 class="fw-bold mb-3" id="formTitle">Add New Task</h2>
+
+    <nav class="side-nav">
+
+        <a href="index.html"
+           class="nav-item">
+
+            <svg width="18"
+                 height="18"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M9 11l3 3L22 4"/>
+
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+
+            </svg>
+
+            My Tasks
+
+        </a>
+
+
+        <a href="add.html"
+           class="nav-item active">
+
+            <svg width="18"
+                 height="18"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <circle cx="12"
+                        cy="12"
+                        r="10"/>
+
+                <line x1="12"
+                      y1="8"
+                      x2="12"
+                      y2="16"/>
+
+                <line x1="8"
+                      y1="12"
+                      x2="16"
+                      y2="12"/>
+
+            </svg>
+
+            Add Task
+
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-spacer"></div>
+
+
+    <button id="logoutBtn"
+            class="nav-item logout">
+
+        <svg width="18"
+             height="18"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+
+            <polyline points="16 17 21 12 16 7"/>
+
+            <line x1="21"
+                  y1="12"
+                  x2="9"
+                  y2="12"/>
+
+        </svg>
+
+        Logout
+
+    </button>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main>
+
+
+    <div class="breadcrumb">
+
+        Today /
+
+        <span class="current"
+              id="crumbCurrent">
+
+            Add task
+
+        </span>
+
+    </div>
+
+
+
+    <div class="page-head">
+
+        <div>
+
+            <h1 id="formTitle">
+                Add a new task
+            </h1>
+
+            <p>
+                Clear your mind, add it here, and get back to your day.
+            </p>
+
+        </div>
+
+
+        <div class="draft-status"
+             id="draftStatus"
+             style="display:none;">
+
+            <span class="dot"></span>
+
+            Draft saved
+
+        </div>
+
+    </div>
+
 
     <div id="alertBox"></div>
 
-    <form id="taskForm" class="card p-4 shadow-sm">
-      <input type="hidden" id="taskId">
 
-      <div class="mb-3">
-        <label class="form-label">Title</label>
-        <input type="text" id="title" class="form-control" required>
-      </div>
 
-      <div class="mb-3">
-        <label class="form-label">Description</label>
-        <textarea id="description" class="form-control" rows="6"
-          style="resize: vertical; overflow-y: scroll;"
-          placeholder="Write detailed notes..."></textarea>
-      </div>
+    <!-- =====================================================
+         LARGE CARD
+    ===================================================== -->
 
-      <div class="mb-3">
-        <label class="form-label">Due Date</label>
-        <input type="date" id="dueDate" class="form-control">
-      </div>
+    <div class="card">
 
-      <div class="d-flex mb-4">
-        <button type="submit" class="btn btn-success">Save Task</button>
-        <a href="index.html" class="btn btn-secondary ms-2">Cancel</a>
-      </div>
-    </form>
-  </div>
 
-  <!-- ✅ SOCKET.IO CLIENT ADDED -->
-  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+        <form id="taskForm">
 
-  <script>
-    const API_URL = "http://localhost:5000/tasks";
-    const token = localStorage.getItem('token');
 
-    // Redirect if not logged in
-    if (!token) {
-      window.location.href = "login.html";
+            <!-- LEFT COLUMN -->
+
+            <div class="main-col">
+
+
+                <input type="hidden"
+                       id="taskId">
+
+
+                <!-- TITLE -->
+
+                <div class="field">
+
+                    <label for="title">
+
+                        Task title
+
+                        <span class="req">
+                            *
+                        </span>
+
+                    </label>
+
+
+                    <input type="text"
+                           id="title"
+                           placeholder="e.g. Finalize homepage concepts"
+                           required>
+
+                </div>
+
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="field">
+
+                    <label>
+                        Description
+                    </label>
+
+
+                    <div class="desc-box">
+
+
+                        <div class="desc-toolbar">
+
+
+                            <!-- BOLD -->
+
+                            <button type="button"
+                                    id="tbBold"
+                                    title="Bold">
+
+                                <b>B</b>
+
+                            </button>
+
+
+                            <!-- ITALIC -->
+
+                            <button type="button"
+                                    id="tbItalic"
+                                    title="Italic">
+
+                                <i>I</i>
+
+                            </button>
+
+
+                            <!-- BULLET LIST -->
+
+                            <button type="button"
+                                    id="tbList"
+                                    title="Bullet list">
+
+                                •☷
+
+                            </button>
+
+
+                        </div>
+
+
+                        <!-- REAL RICH TEXT EDITOR -->
+
+                        <div id="description"
+                             contenteditable="true"
+                             spellcheck="true">
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- STATUS -->
+
+                <div class="field">
+
+                    <span class="group-label">
+                        Status
+                    </span>
+
+
+                    <div class="pill-row"
+                         id="statusGroup">
+
+
+                        <button type="button"
+                                class="pill-btn active"
+                                data-status="todo">
+
+                            <span class="dot"></span>
+
+                            To do
+
+                        </button>
+
+
+                        <button type="button"
+                                class="pill-btn"
+                                data-status="in-progress">
+
+                            <span class="dot"></span>
+
+                            In progress
+
+                        </button>
+
+
+                        <button type="button"
+                                class="pill-btn"
+                                data-status="completed">
+
+                            <span class="dot"></span>
+
+                            Done
+
+                        </button>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PRIORITY -->
+
+                <div class="field"
+                     style="margin-bottom:0;">
+
+                    <span class="group-label">
+                        Priority
+                    </span>
+
+
+                    <div class="pill-row"
+                         id="priorityGroup">
+
+
+                        <button type="button"
+                                class="pill-btn"
+                                data-priority="low">
+
+                            <span class="dot"></span>
+
+                            Low
+
+                        </button>
+
+
+                        <button type="button"
+                                class="pill-btn active"
+                                data-priority="medium">
+
+                            <span class="dot"></span>
+
+                            Medium
+
+                        </button>
+
+
+                        <button type="button"
+                                class="pill-btn"
+                                data-priority="high">
+
+                            <span class="dot"></span>
+
+                            High
+
+                        </button>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- RIGHT COLUMN -->
+
+            <div class="side-col">
+
+
+                <h3>
+                    Schedule date
+                </h3>
+
+
+                <p class="side-sub">
+                    Pick a day for this task.
+                </p>
+
+
+                <div class="cal-card">
+
+
+                    <div class="cal-head">
+
+
+                        <button type="button"
+                                id="calPrev">
+
+                            ‹
+
+                        </button>
+
+
+                        <span class="cal-label"
+                              id="calMonthLabel">
+                        </span>
+
+
+                        <button type="button"
+                                id="calNext">
+
+                            ›
+
+                        </button>
+
+
+                    </div>
+
+
+                    <div class="cal-weekdays">
+
+                        <span>S</span>
+                        <span>M</span>
+                        <span>T</span>
+                        <span>W</span>
+                        <span>T</span>
+                        <span>F</span>
+                        <span>S</span>
+
+                    </div>
+
+
+                    <div class="cal-grid"
+                         id="calGrid">
+                    </div>
+
+
+                </div>
+
+
+                <div class="selected-date-field">
+
+                    <label for="selectedDateInput">
+                        Selected date
+                    </label>
+
+
+                    <input type="text"
+                           id="selectedDateInput"
+                           placeholder="yyyy-mm-dd"
+                           readonly>
+
+                </div>
+
+
+            </div>
+
+
+        </form>
+
+
+
+        <!-- =====================================================
+             BOTTOM BAR
+        ===================================================== -->
+
+        <div class="bottom-bar">
+
+
+            <div class="hint">
+
+                <span class="check">
+                    ✓
+                </span>
+
+                You can edit task details anytime.
+
+            </div>
+
+
+            <div class="bar-actions">
+
+
+                <a href="index.html"
+                   class="btn btn-cancel">
+
+                    Cancel
+
+                </a>
+
+
+                <button type="submit"
+                        form="taskForm"
+                        class="btn btn-save">
+
+                    ✓ Save task
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+
+<script>
+
+/* =====================================================
+   API
+===================================================== */
+
+const API_URL =
+    "http://localhost:5000/tasks";
+
+
+const token =
+    localStorage.getItem("token");
+
+
+if(!token){
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =====================================================
+   SOCKET
+===================================================== */
+
+const socket =
+    io("http://localhost:5000");
+
+
+socket.on(
+    "taskUpdated",
+    () => {
+
+        console.log(
+            "Task updated in another tab/device"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   ALERT
+===================================================== */
+
+function showAlert(
+    message,
+    type = "danger"
+){
+
+    document.getElementById(
+        "alertBox"
+    ).innerHTML =
+
+        `<div class="alert">
+            ${message}
+        </div>`;
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+const statusGroup =
+    document.getElementById(
+        "statusGroup"
+    );
+
+
+let selectedStatus =
+    "todo";
+
+
+function setStatus(status){
+
+    statusGroup
+        .querySelectorAll("button")
+        .forEach(
+            button =>
+                button.classList.remove(
+                    "active"
+                )
+        );
+
+
+    const target =
+        statusGroup.querySelector(
+            `button[data-status="${status}"]`
+        );
+
+
+    if(target){
+
+        target.classList.add(
+            "active"
+        );
+
     }
 
-    // ✅ SOCKET CONNECTION (ADDED)
-    const socket = io("http://localhost:5000");
 
-    socket.on("taskUpdated", () => {
-      console.log("Task updated in another tab/device");
-    });
+    selectedStatus =
+        status;
 
-    // Show alert messages
-    function showAlert(message, type = "danger") {
-      document.getElementById('alertBox').innerHTML =
-        `<div class="alert alert-${type}">${message}</div>`;
+}
+
+
+statusGroup.addEventListener(
+    "click",
+    event => {
+
+        const button =
+            event.target.closest(
+                "button"
+            );
+
+
+        if(!button)
+            return;
+
+
+        setStatus(
+            button.dataset.status
+        );
+
+
+        markDraftSaved();
+
+    }
+);
+
+
+/* =====================================================
+   PRIORITY
+===================================================== */
+
+const priorityGroup =
+    document.getElementById(
+        "priorityGroup"
+    );
+
+
+let selectedPriority =
+    "medium";
+
+
+function setPriority(priority){
+
+    priorityGroup
+        .querySelectorAll("button")
+        .forEach(
+            button =>
+                button.classList.remove(
+                    "active"
+                )
+        );
+
+
+    const target =
+        priorityGroup.querySelector(
+            `button[data-priority="${priority}"]`
+        );
+
+
+    if(target){
+
+        target.classList.add(
+            "active"
+        );
+
     }
 
-    // Check if editing
-    const urlParams = new URLSearchParams(window.location.search);
-    const taskId = urlParams.get('id');
 
-    if (taskId) {
-      document.getElementById('formTitle').innerText = "Edit Task";
-      document.getElementById('taskId').value = taskId;
+    selectedPriority =
+        priority;
 
-      fetch(`${API_URL}/${taskId}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
-        .then(res => {
-          if (!res.ok) throw new Error("Failed to load task");
-          return res.json();
-        })
-        .then(task => {
-          document.getElementById('title').value = task.title;
-          document.getElementById('description').value = task.description || "";
-          document.getElementById('dueDate').value =
-            task.dueDate
-              ? new Date(task.dueDate).toISOString().split('T')[0]
-              : "";
-        })
-        .catch(err => showAlert(err.message));
+}
+
+
+priorityGroup.addEventListener(
+    "click",
+    event => {
+
+        const button =
+            event.target.closest(
+                "button"
+            );
+
+
+        if(!button)
+            return;
+
+
+        setPriority(
+            button.dataset.priority
+        );
+
+
+        markDraftSaved();
+
     }
+);
 
-    // Save Task
-    document.getElementById('taskForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
 
-      const id = document.getElementById('taskId').value;
-      const title = document.getElementById('title').value;
-      const description = document.getElementById('description').value;
-      const dueDate = document.getElementById('dueDate').value;
+/* =====================================================
+   RICH TEXT EDITOR
+===================================================== */
 
-      const method = id ? 'PUT' : 'POST';
-      const url = id ? `${API_URL}/${id}` : API_URL;
+const description =
+    document.getElementById(
+        "description"
+    );
 
-      try {
-        const response = await fetch(url, {
-          method,
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({ title, description, dueDate })
-        });
 
-        if (!response.ok) {
-          const data = await response.json();
-          showAlert(data.message || "Failed to save task");
-          return;
+function formatText(command){
+
+    description.focus();
+
+    document.execCommand(
+        command,
+        false,
+        null
+    );
+
+    updateToolbarState();
+
+    markDraftSaved();
+
+}
+
+
+/* BOLD */
+
+document
+    .getElementById("tbBold")
+    .addEventListener(
+        "mousedown",
+        event => {
+
+            event.preventDefault();
+
+            formatText("bold");
+
         }
+    );
 
-        // (Backend already emits event, so dashboard updates automatically)
-        window.location.href = "index.html";
 
-      } catch (err) {
-        showAlert("Error saving task: " + err.message);
-      }
-    });
+/* ITALIC */
 
-    // Logout
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      localStorage.removeItem('token');
-      window.location.href = "login.html";
-    });
-  </script>
+document
+    .getElementById("tbItalic")
+    .addEventListener(
+        "mousedown",
+        event => {
+
+            event.preventDefault();
+
+            formatText("italic");
+
+        }
+    );
+
+
+/* BULLET LIST */
+
+document
+    .getElementById("tbList")
+    .addEventListener(
+        "mousedown",
+        event => {
+
+            event.preventDefault();
+
+            formatText(
+                "insertUnorderedList"
+            );
+
+        }
+    );
+
+
+/* UPDATE TOOLBAR */
+
+function updateToolbarState(){
+
+    const boldButton =
+        document.getElementById(
+            "tbBold"
+        );
+
+
+    const italicButton =
+        document.getElementById(
+            "tbItalic"
+        );
+
+
+    if(
+        document.queryCommandState(
+            "bold"
+        )
+    ){
+
+        boldButton.classList.add(
+            "active"
+        );
+
+    }
+    else{
+
+        boldButton.classList.remove(
+            "active"
+        );
+
+    }
+
+
+    if(
+        document.queryCommandState(
+            "italic"
+        )
+    ){
+
+        italicButton.classList.add(
+            "active"
+        );
+
+    }
+    else{
+
+        italicButton.classList.remove(
+            "active"
+        );
+
+    }
+
+}
+
+
+description.addEventListener(
+    "keyup",
+    () => {
+
+        updateToolbarState();
+
+        markDraftSaved();
+
+    }
+);
+
+
+description.addEventListener(
+    "mouseup",
+    updateToolbarState
+);
+
+
+/* =====================================================
+   CONVERT EDITOR HTML TO MARKDOWN
+===================================================== */
+
+function editorToText(){
+
+    const clone =
+        description.cloneNode(
+            true
+        );
+
+
+    clone
+        .querySelectorAll(
+            "strong, b"
+        )
+        .forEach(
+            element => {
+
+                const text =
+                    document.createTextNode(
+                        `**${element.textContent}**`
+                    );
+
+                element.replaceWith(
+                    text
+                );
+
+            }
+        );
+
+
+    clone
+        .querySelectorAll(
+            "em, i"
+        )
+        .forEach(
+            element => {
+
+                const text =
+                    document.createTextNode(
+                        `*${element.textContent}*`
+                    );
+
+                element.replaceWith(
+                    text
+                );
+
+            }
+        );
+
+
+    clone
+        .querySelectorAll(
+            "li"
+        )
+        .forEach(
+            element => {
+
+                element.insertAdjacentText(
+                    "beforebegin",
+                    "- "
+                );
+
+                element.insertAdjacentText(
+                    "afterend",
+                    "\n"
+                );
+
+            }
+        );
+
+
+    clone
+        .querySelectorAll(
+            "div, p"
+        )
+        .forEach(
+            element => {
+
+                element.insertAdjacentText(
+                    "afterend",
+                    "\n"
+                );
+
+            }
+        );
+
+
+    return clone.innerText
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+
+}
+
+
+/* =====================================================
+   LOAD MARKDOWN INTO EDITOR
+===================================================== */
+
+function textToEditor(text){
+
+    if(!text){
+
+        description.innerHTML =
+            "";
+
+        return;
+
+    }
+
+
+    let html =
+        String(text);
+
+
+    html =
+        html
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            );
+
+
+    html =
+        html.replace(
+            /\*\*(.*?)\*\*/g,
+            "<strong>$1</strong>"
+        );
+
+
+    html =
+        html.replace(
+            /(?<!\*)\*(?!\*)(.*?)\*(?!\*)/g,
+            "<em>$1</em>"
+        );
+
+
+    html =
+        html.replace(
+            /(?:^|\n)- (.*?)(?=\n|$)/g,
+            "<li>$1</li>"
+        );
+
+
+    html =
+        html.replace(
+            /(<li>.*?<\/li>)(?:\n|$)+/gs,
+            "<ul>$1</ul>"
+        );
+
+
+    html =
+        html.replace(
+            /\n/g,
+            "<br>"
+        );
+
+
+    description.innerHTML =
+        html;
+
+}
+
+
+/* =====================================================
+   DRAFT SAVED
+===================================================== */
+
+let draftTimeout;
+
+
+function markDraftSaved(){
+
+    const element =
+        document.getElementById(
+            "draftStatus"
+        );
+
+
+    clearTimeout(
+        draftTimeout
+    );
+
+
+    element.style.display =
+        "none";
+
+
+    draftTimeout =
+        setTimeout(
+            () => {
+
+                element.style.display =
+                    "flex";
+
+            },
+            500
+        );
+
+}
+
+
+/* =====================================================
+   CALENDAR
+===================================================== */
+
+const monthNames = [
+
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+
+];
+
+
+const today =
+    new Date();
+
+
+let viewYear =
+    today.getFullYear();
+
+
+let viewMonth =
+    today.getMonth();
+
+
+let selectedDate =
+    null;
+
+
+function renderCalendar(){
+
+    document.getElementById(
+        "calMonthLabel"
+    ).textContent =
+        `${monthNames[viewMonth]} ${viewYear}`;
+
+
+    const grid =
+        document.getElementById(
+            "calGrid"
+        );
+
+
+    grid.innerHTML =
+        "";
+
+
+    const firstDay =
+        new Date(
+            viewYear,
+            viewMonth,
+            1
+        ).getDay();
+
+
+    const daysInMonth =
+        new Date(
+            viewYear,
+            viewMonth + 1,
+            0
+        ).getDate();
+
+
+    const daysInPrevMonth =
+        new Date(
+            viewYear,
+            viewMonth,
+            0
+        ).getDate();
+
+
+    for(
+        let i = firstDay - 1;
+        i >= 0;
+        i--
+    ){
+
+        grid.innerHTML +=
+
+            `<span class="cal-day cal-muted">
+                ${daysInPrevMonth - i}
+            </span>`;
+
+    }
+
+
+    for(
+        let day = 1;
+        day <= daysInMonth;
+        day++
+    ){
+
+        const isSelected =
+            selectedDate &&
+            selectedDate.getFullYear()
+                === viewYear &&
+            selectedDate.getMonth()
+                === viewMonth &&
+            selectedDate.getDate()
+                === day;
+
+
+        const isToday =
+            today.getFullYear()
+                === viewYear &&
+            today.getMonth()
+                === viewMonth &&
+            today.getDate()
+                === day;
+
+
+        grid.innerHTML +=
+
+            `<button
+                type="button"
+                class="cal-day
+                ${isSelected
+                    ? "cal-selected"
+                    : ""
+                }
+                ${isToday && !isSelected
+                    ? "cal-today"
+                    : ""
+                }"
+                data-day="${day}"
+            >
+                ${day}
+            </button>`;
+
+    }
+
+
+    const totalCells =
+        firstDay +
+        daysInMonth;
+
+
+    const trailing =
+        (
+            7 -
+            (totalCells % 7)
+        ) % 7;
+
+
+    for(
+        let i = 1;
+        i <= trailing;
+        i++
+    ){
+
+        grid.innerHTML +=
+
+            `<span class="cal-day cal-muted">
+                ${i}
+            </span>`;
+
+    }
+
+}
+
+
+document
+    .getElementById("calGrid")
+    .addEventListener(
+        "click",
+        event => {
+
+            const button =
+                event.target.closest(
+                    "button.cal-day"
+                );
+
+
+            if(!button)
+                return;
+
+
+            selectedDate =
+                new Date(
+                    viewYear,
+                    viewMonth,
+                    parseInt(
+                        button.dataset.day
+                    )
+                );
+
+
+            updateSelectedDateInput();
+
+            renderCalendar();
+
+            markDraftSaved();
+
+        }
+    );
+
+
+document
+    .getElementById("calPrev")
+    .addEventListener(
+        "click",
+        () => {
+
+            viewMonth--;
+
+
+            if(viewMonth < 0){
+
+                viewMonth = 11;
+
+                viewYear--;
+
+            }
+
+
+            renderCalendar();
+
+        }
+    );
+
+
+document
+    .getElementById("calNext")
+    .addEventListener(
+        "click",
+        () => {
+
+            viewMonth++;
+
+
+            if(viewMonth > 11){
+
+                viewMonth = 0;
+
+                viewYear++;
+
+            }
+
+
+            renderCalendar();
+
+        }
+    );
+
+
+function updateSelectedDateInput(){
+
+    const input =
+        document.getElementById(
+            "selectedDateInput"
+        );
+
+
+    if(!selectedDate){
+
+        input.value =
+            "";
+
+        return;
+
+    }
+
+
+    const day =
+        String(
+            selectedDate.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const month =
+        String(
+            selectedDate.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const year =
+        selectedDate.getFullYear();
+
+
+    input.value =
+        `${year}-${month}-${day}`;
+
+}
+
+
+renderCalendar();
+
+
+/* =====================================================
+   EDIT TASK
+===================================================== */
+
+const urlParams =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const taskId =
+    urlParams.get("id");
+
+
+if(taskId){
+
+    document.getElementById(
+        "formTitle"
+    ).innerText =
+        "Edit task";
+
+
+    document.getElementById(
+        "crumbCurrent"
+    ).innerText =
+        "Edit task";
+
+
+    document.getElementById(
+        "taskId"
+    ).value =
+        taskId;
+
+
+    fetch(
+        `${API_URL}/${taskId}`,
+        {
+            headers:{
+                "Authorization":
+                    `Bearer ${token}`
+            }
+        }
+    )
+
+    .then(
+        response => {
+
+            if(!response.ok){
+
+                throw new Error(
+                    "Failed to load task"
+                );
+
+            }
+
+
+            return response.json();
+
+        }
+    )
+
+    .then(
+        task => {
+
+
+            document.getElementById(
+                "title"
+            ).value =
+                task.title;
+
+
+            textToEditor(
+                task.description || ""
+            );
+
+
+            if(task.dueDate){
+
+                selectedDate =
+                    new Date(
+                        task.dueDate
+                    );
+
+
+                viewYear =
+                    selectedDate.getFullYear();
+
+
+                viewMonth =
+                    selectedDate.getMonth();
+
+
+                updateSelectedDateInput();
+
+                renderCalendar();
+
+            }
+
+
+            if(task.status){
+
+                setStatus(
+                    task.status
+                );
+
+            }
+
+
+            if(task.priority){
+
+                setPriority(
+                    task.priority
+                );
+
+            }
+
+        }
+    )
+
+    .catch(
+        error => {
+
+            showAlert(
+                error.message
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SAVE TASK
+===================================================== */
+
+document
+    .getElementById("taskForm")
+    .addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+
+            const id =
+                document.getElementById(
+                    "taskId"
+                ).value;
+
+
+            const title =
+                document.getElementById(
+                    "title"
+                ).value.trim();
+
+
+            const description =
+                editorToText();
+
+
+            const dueDate =
+                document.getElementById(
+                    "selectedDateInput"
+                ).value;
+
+
+            const method =
+                id
+                    ? "PUT"
+                    : "POST";
+
+
+            const url =
+                id
+                    ? `${API_URL}/${id}`
+                    : API_URL;
+
+
+            if(!title){
+
+                showAlert(
+                    "Please enter a task title."
+                );
+
+                return;
+
+            }
+
+
+            try{
+
+                const response =
+                    await fetch(
+                        url,
+                        {
+                            method,
+
+                            headers:{
+
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    `Bearer ${token}`
+
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    title,
+
+                                    description,
+
+                                    dueDate,
+
+                                    status:
+                                        selectedStatus,
+
+                                    priority:
+                                        selectedPriority
+
+                                })
+
+                        }
+                    );
+
+
+                if(!response.ok){
+
+                    let data = {};
+
+                    try{
+
+                        data =
+                            await response.json();
+
+                    }
+                    catch{
+
+                        data = {};
+
+                    }
+
+
+                    showAlert(
+                        data.message ||
+                        "Failed to save task"
+                    );
+
+
+                    return;
+
+                }
+
+
+                window.location.href =
+                    "index.html";
+
+            }
+            catch(error){
+
+                showAlert(
+                    "Error saving task: " +
+                    error.message
+                );
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+document
+    .getElementById("logoutBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            localStorage.removeItem(
+                "token"
+            );
+
+            window.location.href =
+                "login.html";
+
+        }
+    );
+
+</script>
+
 </body>
 </html>

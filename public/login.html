@@ -1,184 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login - Task Manager</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login · Task Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+:root{
+  --bg1:#f8fafc; --bg2:#eef2ff; --card:#ffffff; --border:#cbd5e1;
+  --ink:#0f172a; --ink-soft:#475569; --muted:#64748b;
+  --primary:#4f46e5; --primary-dark:#3730a3; --primary-light:#e0e7ff;
+  --red:#b91c1c; --red-light:#fef2f2; --green-light:#dcfce7; --green-dark:#15803d;
+  font-family:'Inter',sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
 body{
-    background:#f4f7fb !important;
+  margin:0; min-height:100vh; background:linear-gradient(160deg,var(--bg1),var(--bg2));
+  color:var(--ink); display:flex; align-items:center; justify-content:center; padding:24px;
 }
-
-/* Navbar */
-.navbar{
-    background:linear-gradient(135deg,#0f172a,#1e293b)!important;
-    box-shadow:0 4px 15px rgba(0,0,0,0.15);
+.auth-card{
+  width:100%; max-width:420px; background:var(--card); border:1.5px solid var(--border);
+  border-radius:22px; padding:38px 34px; box-shadow:0 20px 40px rgba(15,23,42,.06);
 }
-
-.navbar-brand{
-    font-size:1.4rem;
-    letter-spacing:0.5px;
+.logo{ display:flex; align-items:center; gap:10px; margin-bottom:30px; }
+.logo-mark{
+  width:38px; height:38px; border-radius:11px; background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.85rem;
+  font-family:'Plus Jakarta Sans',sans-serif;
 }
+.logo-name{ font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1.08rem; line-height:1.1; color:var(--ink); }
+.logo-tag{ font-size:.62rem; letter-spacing:.09em; color:var(--muted); font-weight:700; }
 
-.navbar-brand i{
-    color:#38bdf8;
-    margin-left:8px;
-    transition:0.3s;
+h2{ font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1.55rem; margin:0 0 6px; color:var(--ink); }
+.sub{ color:var(--ink-soft); font-size:.9rem; margin:0 0 26px; }
+
+.field{ margin-bottom:18px; }
+.field label{ display:block; font-size:.8rem; font-weight:700; color:var(--ink); margin-bottom:7px; }
+.field input{
+  width:100%; font-size:.95rem; color:var(--ink); background:#ffffff;
+  border:1.5px solid var(--border); border-radius:11px; padding:12px 14px;
+  transition:border-color .15s ease, box-shadow .15s ease, background .15s ease;
 }
-
-.navbar-brand i:hover{
-    color:#7dd3fc;
+.field input:focus{
+  outline:none; border-color:var(--primary); background:#fff;
+  box-shadow:0 0 0 4px rgba(79,70,229,.15);
 }
+.field input::placeholder{ color:var(--muted); }
 
-/* Page Heading */
-h2{
-    color:#1e293b;
-    font-weight:700;
-    text-align:center;
-    margin-bottom:25px;
+.btn-submit{
+  width:100%; font-size:.95rem; font-weight:700; background:var(--primary); color:#fff;
+  border:none; border-radius:11px; padding:13px; cursor:pointer; margin-top:8px;
+  transition:background .15s ease, transform .1s ease, box-shadow .15s ease;
+  box-shadow:0 10px 22px rgba(79,70,229,.25);
 }
+.btn-submit:hover{ background:var(--primary-dark); }
+.btn-submit:active{ transform:translateY(1px); }
 
-/* Login Card */
-.card{
-    max-width:500px;
-    margin:auto;
-    border:none;
-    border-radius:20px;
-    background:white;
-    box-shadow:0 10px 30px rgba(0,0,0,0.08)!important;
-}
+.alt-link{ display:block; text-align:center; margin-top:18px; font-size:.88rem; color:var(--primary); text-decoration:none; font-weight:700; }
+.alt-link:hover{ color:var(--primary-dark); }
 
-/* Labels */
-.form-label{
-    font-weight:600;
-    color:#334155;
-}
-
-/* Inputs */
-.form-control{
-    border-radius:12px;
-    border:1px solid #dbe3ee;
-    padding:12px;
-}
-
-.form-control:focus{
-    border-color:#38bdf8;
-    box-shadow:0 0 0 0.2rem rgba(56,189,248,.15);
-}
-
-/* Login Button */
-.btn-primary{
-    background:#2563eb;
-    border:none;
-    border-radius:12px;
-    padding:10px;
-    font-weight:600;
-}
-
-.btn-primary:hover{
-    background:#1d4ed8;
-}
-
-/* Register Link */
-.btn-link{
-    text-decoration:none;
-    color:#2563eb;
-    font-weight:500;
-}
-
-.btn-link:hover{
-    color:#1d4ed8;
-}
-
-/* Alerts */
-.alert{
-    border-radius:12px;
-}
-
-/* Mobile */
-@media(max-width:768px){
-
-    .card{
-        margin:0 10px;
-    }
-
-    h2{
-        font-size:1.8rem;
-    }
-}
+#loginResult .alert{ font-size:.88rem; font-weight:600; border-radius:11px; padding:12px 14px; margin-top:18px; border:1px solid; }
+#loginResult .alert-success{ background:var(--green-light); color:var(--green-dark); border-color:#86efac; }
+#loginResult .alert-danger{ background:var(--red-light); color:var(--red); border-color:#fca5a5; }
+#loginResult .alert ul{ margin:0; padding-left:18px; }
 </style>
-<body class="bg-light">
+</head>
+<body>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <div class="container-fluid">
-    <a class="navbar-brand fw-bold" href="index.html">
-     Task Manager <i class="bi bi-kanban-fill"></i>
-    </a>
-  </div>
-</nav>
-
-
-  <!-- Main Container -->
-  <div class="container mt-4">
-    <h2 class="fw-bold mb-3">Login</h2>
-
-    <form id="loginForm" class="card p-4 shadow-sm">
-      <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input type="email" id="email" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Password</label>
-        <input type="password" id="password" class="form-control" required>
-      </div>
-      <button type="submit" class="btn btn-primary">Login</button>
-      <a href="register.html" class="btn btn-link">Need an account? Register</a>
-    </form>
-
-    <div id="loginResult" class="mt-3"></div>
+<div class="auth-card">
+  <div class="logo">
+    <span class="logo-mark">TM</span>
+    <div>
+      <div class="logo-name">Task Manager</div>
+      <div class="logo-tag">GET IT DONE</div>
+    </div>
   </div>
 
-  <script>
-    const API_URL = "http://localhost:5000/auth/login";
+  <h2>Welcome back</h2>
+  <p class="sub">Sign in to pick up where you left off.</p>
 
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+  <form id="loginForm">
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="you@example.com" required>
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="••••••••" required>
+    </div>
+    <button type="submit" class="btn-submit">Login</button>
+    <a href="register.html" class="alt-link">Need an account? Register</a>
+  </form>
 
-      try {
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
-        });
+  <div id="loginResult"></div>
+</div>
 
-        const data = await response.json();
+<script>
+  const API_URL = "http://localhost:5000/auth/login";
 
-        if (response.ok) {
-          localStorage.setItem('token', data.token);
-          document.getElementById('loginResult').innerHTML =
-            `<div class="alert alert-success">Login successful! Redirecting...</div>`;
-          setTimeout(() => window.location.href = "index.html", 1000);
-        } else {
-          // Handle validation errors nicely
-          if (data.errors && Array.isArray(data.errors)) {
-            const messages = data.errors.map(err => `<li>${err.msg}</li>`).join("");
-            document.getElementById('loginResult').innerHTML =
-              `<div class="alert alert-danger"><ul>${messages}</ul></div>`;
-          } else {
-            document.getElementById('loginResult').innerHTML =
-              `<div class="alert alert-danger">${data.message || "Login failed"}</div>`;
-          }
-        }
-      } catch (err) {
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
         document.getElementById('loginResult').innerHTML =
-          `<div class="alert alert-danger">Error: ${err.message}</div>`;
+          `<div class="alert alert-success">Login successful! Redirecting...</div>`;
+        setTimeout(() => window.location.href = "index.html", 1000);
+      } else {
+        if (data.errors && Array.isArray(data.errors)) {
+          const messages = data.errors.map(err => `<li>${err.msg}</li>`).join("");
+          document.getElementById('loginResult').innerHTML =
+            `<div class="alert alert-danger"><ul>${messages}</ul></div>`;
+        } else {
+          document.getElementById('loginResult').innerHTML =
+            `<div class="alert alert-danger">${data.message || "Login failed"}</div>`;
+        }
       }
-    });
-  </script>
+    } catch (err) {
+      document.getElementById('loginResult').innerHTML =
+        `<div class="alert alert-danger">Error: ${err.message}</div>`;
+    }
+  });
+</script>
+
 </body>
 </html>
